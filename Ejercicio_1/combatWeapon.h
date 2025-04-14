@@ -4,36 +4,76 @@
 
 class CombatWeapon : public Weapon {
     protected:
-        Character* warrior;
+        weak_ptr<Character> character;
+
         string name;
 
         float damage;
         
         float durability = 15;
+        const float durabilityCost;
         
         const float criticalProbability;
         
-        int attacksCount = 0;
+        const int attacksToSpecial;
+        int attacksCount = 1;
 
         bool ranged;
 
+        string changeName() const;
+        bool checkDurability() const;        
+        bool criticalHit() const;
+
         void setName(const string& newName) override;
+        void damageCharacter(Character& damageReceiver, float amount) const override;
+
+        void showReparation(const float oldDurability) const;
         
-        void damageCharacter(Character& character, float amount) const;
-        
+        void consumeDurability(const int multiplier = 1) override;
+
         virtual float specialCombatDamage() = 0;
 
     public:
-        CombatWeapon(Character* _warrior, const string& _name, const float _damage, const float _criticalProbability, const bool _ranged) : warrior(_warrior), name(_name), damage(_damage), criticalProbability(_criticalProbability), ranged(_ranged) {};
+        CombatWeapon(
+            weak_ptr<Character> _character,
+            const string& _name,
+            const float _damage,
+            const float _durabilityCost,
+            const float _criticalProbability,
+            const int _attacksToSpecial,
+            const bool _ranged) :
+            character(_character),
+            name(_name),
+            damage(_damage),
+            durabilityCost(_durabilityCost),
+            criticalProbability(_criticalProbability),
+            attacksToSpecial(_attacksToSpecial),
+            ranged(_ranged) {};
 
+        virtual ~CombatWeapon() = default;
+
+        bool isNextSpecial() const override;
+        bool isSpecial() const override;
         bool isRanged() const override;
         bool isDurabilityFull() const override;
 
         float getCriticalProbability() const;
 
+        weak_ptr<Character> getCharacter() const override;
+
         string getName() const override;
+        string getType() const override;
+
         float getDamage() const override;
         float getDurability() const override;
+        float getDurabilityCost() const override;
+
+        void showWeapon() const override;
+
+        // friend ostream& operator<< (ostream& os, const Weapon& weapon) {
+        //     os << "'" << weapon.getName() << "' (Arma de Combate)";
+        //     return os;
+        // };
 };
 
 class SingleAxe final : public CombatWeapon {
@@ -47,15 +87,12 @@ class SingleAxe final : public CombatWeapon {
     Reparación: Normal
     Rango: No
     */
-    private:
-        void consumeDurability() override;
-
     public:
-        SingleAxe(Character* _warrior) : CombatWeapon(_warrior, "Hacha Simple", 17.5, 25, false) {};
+        SingleAxe(weak_ptr<Character> _character) : CombatWeapon(_character, "Hacha Simple", 17.5, 1, 0.25, 3, false) {};
 
         float specialCombatDamage() override;
 
-        bool attack(Character& character) override;
+        bool attack(Character& damageReceiver, const float multiplier = 1.0) override;
         void repair() override;
 };
 
@@ -69,15 +106,12 @@ class BattleAxe final : public CombatWeapon {
     Reparación: Baja
     Rango: No
     */
-    private:
-        void consumeDurability() override;
-
     public:
-        BattleAxe(Character* _warrior) : CombatWeapon(_warrior, "Hacha Doble", 25, 10, false) {};
+        BattleAxe(weak_ptr<Character> _character) : CombatWeapon(_character, "Hacha Doble", 25, 1.5, 0.1, 4, false) {};
 
         float specialCombatDamage() override;
 
-        bool attack(Character& character) override;
+        bool attack(Character& damageReceiver, const float multiplier = 1.0) override;
         void repair() override;
 };
 
@@ -91,15 +125,12 @@ class Sword final : public CombatWeapon {
     Reparación: Normal
     Rango: No
     */
-    private:
-        void consumeDurability() override;
-
     public:
-        Sword(Character* _warrior) : CombatWeapon(_warrior, "Espada", 20, 15, false) {};
+        Sword(weak_ptr<Character> _character) : CombatWeapon(_character, "Espada", 20, 2, 0.15, 3, false) {};
 
         float specialCombatDamage() override;
 
-        bool attack(Character& character) override;
+        bool attack(Character& damageReceiver, const float multiplier = 1.0) override;
         void repair() override;
 };
 
@@ -115,15 +146,12 @@ class Spear final : public CombatWeapon {
     Rango: No (Inicialmente)
     Los ataques críticos hacen el doble de daño.
     */
-    private:
-        void consumeDurability() override;
-
     public:
-        Spear(Character* _warrior) : CombatWeapon(_warrior, "Lanza", 17.5, 10, false) {};
+        Spear(weak_ptr<Character> _character) : CombatWeapon(_character, "Lanza", 17.5, 1, 0.1, 4, false) {};
         
         float specialCombatDamage() override;
 
-        bool attack(Character& character) override;
+        bool attack(Character& damageReceiver, const float multiplier = 1.0) override;
         void repair() override;
 };
 
@@ -137,14 +165,11 @@ class Mace final : public CombatWeapon {
     Reparación: Alta
     Rango: No
     */
-    private:
-        void consumeDurability() override;
-
     public:
-        Mace(Character* _warrior) : CombatWeapon(_warrior, "Garrote", 12.5, 10, false) {};
+        Mace(weak_ptr<Character> _character) : CombatWeapon(_character, "Garrote", 12.5, 0.75, 0.1, 4, false) {};
 
         float specialCombatDamage() override;
 
-        bool attack(Character& character) override;
+        bool attack(Character& damageReceiver, const float multiplier = 1.0) override;
         void repair() override;
 };
