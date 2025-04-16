@@ -75,7 +75,7 @@ class Barbarian final : public Warrior {
         void heal(const float _heal) override;
     
     public:
-        Barbarian(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Bárbaro", 225, 0.125, 0.2) {};
+        Barbarian(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Bárbaro", 175, 0.125, 0.2) {};
         
         ~Barbarian() = default;
         
@@ -98,7 +98,7 @@ class Paladin final : public Warrior {
         void heal(const float _heal) override;
     
     public:
-        Paladin(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Paladín", 175, 0.25, 0.05) {};
+        Paladin(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Paladín", 130, 0.25, 0.05) {};
         
         ~Paladin() = default;
         
@@ -124,7 +124,7 @@ class Knight final : public Warrior {
         bool reboundAttack(const float reboundProbability) const;
 
     public:
-        Knight(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Caballero", 225, 0.25, 0.05) {};
+        Knight(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Caballero", 175, 0.25, 0.05) {};
         
         ~Knight() = default;
 
@@ -150,7 +150,7 @@ class Mercenary final : public Warrior {
         void heal(const float _heal) override;
     
     public:
-        Mercenary(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Mercenario", 225, 0.05, 0.1) {};
+        Mercenary(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Mercenario", 175, 0.05, 0.1) {};
         
         ~Mercenary() = default;
 
@@ -172,7 +172,7 @@ class Gladiator final : public Warrior {
         void heal(const float _heal) override;
 
     public:
-        Gladiator(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Gladiador", 225, 0.125, 0.2) {};
+        Gladiator(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Gladiador", 175, 0.125, 0.2) {};
         
         ~Gladiator() = default;
 
