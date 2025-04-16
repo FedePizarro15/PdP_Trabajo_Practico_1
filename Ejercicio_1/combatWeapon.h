@@ -21,10 +21,12 @@ class CombatWeapon : public Weapon {
         bool ranged;
 
         string changeName() const;
-        bool checkDurability() const;        
+
+        bool checkDurability() const;
         bool criticalHit() const;
 
         void setName(const string& newName) override;
+
         void damageCharacter(Character& damageReceiver, float amount) const override;
 
         void showReparation(const float oldDurability) const;
@@ -69,11 +71,6 @@ class CombatWeapon : public Weapon {
         float getDurabilityCost() const override;
 
         void showWeapon() const override;
-
-        // friend ostream& operator<< (ostream& os, const Weapon& weapon) {
-        //     os << "'" << weapon.getName() << "' (Arma de Combate)";
-        //     return os;
-        // };
 };
 
 class SingleAxe final : public CombatWeapon {
@@ -89,6 +86,8 @@ class SingleAxe final : public CombatWeapon {
     */
     public:
         SingleAxe(weak_ptr<Character> _character) : CombatWeapon(_character, "Hacha Simple", 17.5, 1, 0.25, 3, false) {};
+        
+        ~SingleAxe() = default;
 
         float specialCombatDamage() override;
 
@@ -108,6 +107,8 @@ class BattleAxe final : public CombatWeapon {
     */
     public:
         BattleAxe(weak_ptr<Character> _character) : CombatWeapon(_character, "Hacha Doble", 25, 1.5, 0.1, 4, false) {};
+        
+        ~BattleAxe() = default;
 
         float specialCombatDamage() override;
 
@@ -127,6 +128,8 @@ class Sword final : public CombatWeapon {
     */
     public:
         Sword(weak_ptr<Character> _character) : CombatWeapon(_character, "Espada", 20, 2, 0.15, 3, false) {};
+        
+        ~Sword() = default;
 
         float specialCombatDamage() override;
 
@@ -149,6 +152,8 @@ class Spear final : public CombatWeapon {
     public:
         Spear(weak_ptr<Character> _character) : CombatWeapon(_character, "Lanza", 17.5, 1, 0.1, 4, false) {};
         
+        ~Spear() = default;
+        
         float specialCombatDamage() override;
 
         bool attack(Character& damageReceiver, const float multiplier = 1.0) override;
@@ -167,6 +172,8 @@ class Mace final : public CombatWeapon {
     */
     public:
         Mace(weak_ptr<Character> _character) : CombatWeapon(_character, "Garrote", 12.5, 0.75, 0.1, 4, false) {};
+        
+        ~Mace() = default;
 
         float specialCombatDamage() override;
 

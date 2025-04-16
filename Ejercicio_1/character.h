@@ -13,7 +13,7 @@ class Weapon;
 
 class Character {
     protected:
-        virtual void heal(const float heal) = 0;
+        virtual void heal(const float _heal) = 0;
 
     public:
         virtual ~Character() = default;
@@ -22,7 +22,7 @@ class Character {
         virtual void attack(Character& damageReceiver, shared_ptr<Weapon> chosenWeapon = nullptr) = 0;
         virtual void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) = 0;
 
-        virtual void setName(const string&) = 0;
+        virtual void setName(const string& newName) = 0;
         
         virtual bool isHealthFull() const = 0;
 

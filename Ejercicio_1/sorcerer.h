@@ -4,7 +4,6 @@
 
 class Sorcerer : public Character {
     protected:
-
         shared_ptr<Weapon> leftHand;
         shared_ptr<Weapon> rightHand;
 
@@ -19,6 +18,7 @@ class Sorcerer : public Character {
         const float damageBonus;
         
         bool dodgeAttack(const float agility) const;
+        
         shared_ptr<Weapon> chooseWeapon(shared_ptr<Weapon> leftHand, shared_ptr<Weapon> rightHand) const;
 
         void setName(const string& newName) override;
@@ -60,14 +60,9 @@ class Sorcerer : public Character {
         float getDamageBonus() const override;
 
         void showCharacter() const override;
-
-        // friend ostream& operator<< (ostream& os, const Character& character) {
-        //     os << "'" << character.getName() << "' (Mago)";
-        //     return os;
-        // };
 };
 
-class Wizard : public Sorcerer {
+class Wizard final : public Sorcerer {
     /*
     Al atacar con un arma de tipo Mágico, aplica un daño mayor.
 
@@ -76,10 +71,12 @@ class Wizard : public Sorcerer {
     Bono de Daño: Alto
     */
     private:
-        void heal(const float heal) override;
+        void heal(const float _heal) override;
 
     public:
         Wizard(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Hechicero", 175, 0.2, 0.2) {};
+        
+        ~Wizard() = default;
         
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
@@ -87,7 +84,7 @@ class Wizard : public Sorcerer {
         void hide() override;
 };
 
-class Summoner : public Sorcerer {
+class Summoner final : public Sorcerer {
     /*
     Los ataques especiales son más potentes.
 
@@ -96,10 +93,12 @@ class Summoner : public Sorcerer {
     Bono de Daño: Normal
     */
     private:
-        void heal(const float heal) override;
+        void heal(const float _heal) override;
     
     public:
         Summoner(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Conjurador", 225, 0.1, 0.1) {};
+        
+        ~Summoner() = default;
         
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
@@ -107,7 +106,7 @@ class Summoner : public Sorcerer {
         void hide() override;
 };
 
-class Warlock : public Sorcerer {
+class Warlock final : public Sorcerer {
     /*
     El daño recibido de los ataques de armas de tipo Mágico se reducen. Al esconderse aumenta en gran medida su posibilidad de esquivar un ataque, pero se cura menos.
 
@@ -116,10 +115,12 @@ class Warlock : public Sorcerer {
     Bono de Daño: Normal
     */
     private:
-        void heal(const float heal) override;
+        void heal(const float _heal) override;
     
     public:
         Warlock(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Brujo", 260, 0.05, 0.1) {};
+        
+        ~Warlock() = default;
 
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
@@ -127,7 +128,7 @@ class Warlock : public Sorcerer {
         void hide() override;
 };
 
-class Necromancer : public Sorcerer {
+class Necromancer final : public Sorcerer {
     /*
     Los ataques de rango se potencian. Esconderse no aumenta en gran medida la agilidad, pero se cura más.
 
@@ -136,10 +137,12 @@ class Necromancer : public Sorcerer {
     Bono de Daño: Bajo
     */
     private:
-        void heal(const float heal) override;
+        void heal(const float _heal) override;
     
     public:
         Necromancer(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Nigromante", 130, 0.35, 0.05) {};
+        
+        ~Necromancer() = default;
 
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 

@@ -61,14 +61,9 @@ class Warrior : public Character {
         float getDamageBonus() const override;
 
         void showCharacter() const override;
-
-        // friend ostream& operator<< (ostream& os, const Character& character) {
-        //     os << "'" << character.getName() << "' (Guerrero)";
-        //     return os;
-        // };
 };
 
-class Barbarian : public Warrior {
+class Barbarian final : public Warrior {
     /*
     Al atacar con un arma de tipo Combate, aplica un daño mayor.
 
@@ -82,6 +77,8 @@ class Barbarian : public Warrior {
     public:
         Barbarian(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Bárbaro", 225, 0.125, 0.2) {};
         
+        ~Barbarian() = default;
+        
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
         void attack(Character& damageReceiver, shared_ptr<Weapon> chosenWeapon = nullptr) override;
@@ -89,7 +86,7 @@ class Barbarian : public Warrior {
 
 };
 
-class Paladin : public Warrior {
+class Paladin final : public Warrior {
     /*
     Aplica un mayor daño con los ataques cuerpo a cuerpo. Se cura un poco más.
 
@@ -101,7 +98,9 @@ class Paladin : public Warrior {
         void heal(const float _heal) override;
     
     public:
-        Paladin(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Paladin", 175, 0.25, 0.05) {};
+        Paladin(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Paladín", 175, 0.25, 0.05) {};
+        
+        ~Paladin() = default;
         
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
@@ -109,7 +108,7 @@ class Paladin : public Warrior {
         void reinforce() override;
 };
 
-class Knight : public Warrior {
+class Knight final : public Warrior {
     /*
     Tiene una probabilidad de rebotar un ataque. Reforzarse aumenta en menor medida la armadura, pero se cura un poco más.
 
@@ -126,6 +125,8 @@ class Knight : public Warrior {
 
     public:
         Knight(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Caballero", 225, 0.25, 0.05) {};
+        
+        ~Knight() = default;
 
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
@@ -137,7 +138,7 @@ class Knight : public Warrior {
         float getReboundProbability() const;
 };
 
-class Mercenary : public Warrior {
+class Mercenary final : public Warrior {
     /*
     El daño recibido de los ataques de tipo Combate se reducen.
 
@@ -150,6 +151,8 @@ class Mercenary : public Warrior {
     
     public:
         Mercenary(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Mercenario", 225, 0.05, 0.1) {};
+        
+        ~Mercenary() = default;
 
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 
@@ -157,7 +160,7 @@ class Mercenary : public Warrior {
         void reinforce() override;
 };
 
-class Gladiator : public Warrior {
+class Gladiator final : public Warrior {
     /*
     Los ataques especiales provocan menos daño. Reforzarse aumenta en gran medida la armadura, pero se cura menos.
     
@@ -170,6 +173,8 @@ class Gladiator : public Warrior {
 
     public:
         Gladiator(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Warrior(_leftHand, _rightHand, "Gladiador", 225, 0.125, 0.2) {};
+        
+        ~Gladiator() = default;
 
         void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) override;
 

@@ -27,12 +27,13 @@ class MagicItem : public Weapon {
         bool ranged;
 
         string changeName() const;
+
         bool checkDurability() const;        
         bool checkMana() const;
 
         void setName(const string& newName) override;
+
         void damageCharacter(Character& damageReceiver, const float amount) const override;
-        
         void healCharacter(Character& healReceiver, const float amount) const;
 
         void showReparation(const float oldDurability, const float oldMana) const;
@@ -85,11 +86,6 @@ class MagicItem : public Weapon {
         float getDurabilityCost() const override;
 
         void showWeapon() const override;
-
-        // friend ostream& operator<< (ostream& os, const Weapon& weapon) {
-        //     os << "'" << weapon.getName() << "' (Item Mágico)";
-        //     return os;
-        // };
 };
 
 class Staff final : public MagicItem {
@@ -107,6 +103,8 @@ class Staff final : public MagicItem {
     */
     public:
         Staff(weak_ptr<Character> _character) : MagicItem(_character, "Bastón Mágico", 15, 1, 150, 15, 4, true) {};
+        
+        ~Staff() = default;
 
         float specialMagicDamage() override;
 
@@ -130,6 +128,8 @@ class Spellbook final : public MagicItem {
     */
     public:
         Spellbook(weak_ptr<Character> _character) : MagicItem(_character, "Libro de Hechizos", 17.75, 1, 75, 10, 4, true) {};
+        
+        ~Spellbook() = default;
 
         float specialMagicDamage() override;
 
@@ -154,6 +154,8 @@ class Potion final : public MagicItem {
 
     public:
         Potion(weak_ptr<Character> _character) : MagicItem(_character, "Poción", 7.5, 1, 50, 10, 3, true) {};
+        
+        ~Potion() = default;
 
         float specialMagicDamage() override;
 
@@ -178,6 +180,8 @@ class Amulet final : public MagicItem {
     */
     public:
         Amulet(weak_ptr<Character> _character) : MagicItem(_character, "Amuleto", 10, 1.5, 100, 7.5, 4, false) {};
+        
+        ~Amulet() = default;
 
         float specialMagicDamage() override;
 

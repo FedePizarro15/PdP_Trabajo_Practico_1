@@ -13,7 +13,8 @@ class Weapon {
     protected:
         virtual void consumeDurability(const int multiplier = 1) = 0;
         
-        virtual void setName(const string&) = 0;
+        virtual void setName(const string& newName) = 0;
+
         virtual void damageCharacter(Character& damageReceiver, const float amount) const = 0;
 
     public:
