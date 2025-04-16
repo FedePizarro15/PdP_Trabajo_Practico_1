@@ -74,7 +74,7 @@ class Wizard final : public Sorcerer {
         void heal(const float _heal) override;
 
     public:
-        Wizard(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Hechicero", 175, 0.2, 0.2) {};
+        Wizard(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Hechicero", 130, 0.2, 0.2) {};
         
         ~Wizard() = default;
         
@@ -96,7 +96,7 @@ class Summoner final : public Sorcerer {
         void heal(const float _heal) override;
     
     public:
-        Summoner(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Conjurador", 225, 0.1, 0.1) {};
+        Summoner(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Conjurador", 175, 0.1, 0.1) {};
         
         ~Summoner() = default;
         
@@ -118,7 +118,7 @@ class Warlock final : public Sorcerer {
         void heal(const float _heal) override;
     
     public:
-        Warlock(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Brujo", 260, 0.05, 0.1) {};
+        Warlock(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Brujo", 200, 0.05, 0.1) {};
         
         ~Warlock() = default;
 
@@ -140,7 +140,7 @@ class Necromancer final : public Sorcerer {
         void heal(const float _heal) override;
     
     public:
-        Necromancer(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Nigromante", 130, 0.35, 0.05) {};
+        Necromancer(shared_ptr<Weapon> _leftHand, shared_ptr<Weapon> _rightHand) : Sorcerer(_leftHand, _rightHand, "Nigromante", 100, 0.35, 0.05) {};
         
         ~Necromancer() = default;
 
