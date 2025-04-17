@@ -40,3 +40,6 @@
 *.synctex.gz
 *.fdb_latexmk
 *.tex
+
+# Figures directory
+report/
