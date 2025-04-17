@@ -20,7 +20,7 @@ class Warrior : public Character {
 
         const float damageBonus;
 
-        shared_ptr<Weapon> chooseWeapon(shared_ptr<Weapon> leftHand, shared_ptr<Weapon> rightHand) const;
+        shared_ptr<Weapon> chooseWeapon(shared_ptr<Weapon> leftHand, shared_ptr<Weapon> rightHand) const override;
         
         void setName(const string& newName) override;
     

@@ -22,6 +22,8 @@ class Character {
         virtual void attack(Character& damageReceiver, shared_ptr<Weapon> chosenWeapon = nullptr) = 0;
         virtual void receiveDamage(const float damage, Character& attacker, const string type = "", const bool ranged = false, const bool isSpecial = false) = 0;
 
+        virtual shared_ptr<Weapon> chooseWeapon(shared_ptr<Weapon> leftHand, shared_ptr<Weapon> rightHand) const = 0;
+
         virtual void setName(const string& newName) = 0;
         
         virtual bool isHealthFull() const = 0;

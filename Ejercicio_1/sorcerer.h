@@ -19,7 +19,7 @@ class Sorcerer : public Character {
         
         bool dodgeAttack(const float agility) const;
         
-        shared_ptr<Weapon> chooseWeapon(shared_ptr<Weapon> leftHand, shared_ptr<Weapon> rightHand) const;
+        shared_ptr<Weapon> chooseWeapon(shared_ptr<Weapon> leftHand, shared_ptr<Weapon> rightHand) const override;
 
         void setName(const string& newName) override;
     
