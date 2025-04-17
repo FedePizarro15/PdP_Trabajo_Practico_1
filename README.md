@@ -1,7 +1,7 @@
 # Trabajo Práctico 1 - Paradigmas de Programación
 
 **Alumno:** Federico Pizarro  
-**Ingeniería en Inteligencia Artificial**
+**Ingeniería en Inteligencia Artificial**  
 **Materia:** Paradigmas de Programación
 
 ---
