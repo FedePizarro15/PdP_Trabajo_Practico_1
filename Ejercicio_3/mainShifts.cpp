@@ -38,43 +38,6 @@ void pressEnterToContinue() {
     getchar();
 }
 
-enum RPSResult { PLAYER_WINS, ENEMY_WINS, TIE };
-
-RPSResult playRPS() {
-    int playerChoice, enemyChoice;
-    
-    cout << BLUE_FORMAT << "\n--- Piedra, Papel o Tijera ---" << RESET_FORMAT << endl;
-    cout << "Elige una opción:" << endl;
-    cout << "1. Piedra" << endl;
-    cout << "2. Papel" << endl;
-    cout << "3. Tijera " << endl;
-    cin >> playerChoice;
-
-    if (playerChoice < 1 || playerChoice > 3) {
-        cout << RED_FORMAT << "Opción inválida. Se seleccionará Piedra por defecto." << RESET_FORMAT << endl;
-        playerChoice = 1;
-    }
-
-    enemyChoice = getRandInt(1, 3);
-
-    string choices[4] = { "", "Piedra", "Papel", "Tijera" };
-    cout << "Tu elección: " << YELLOW_FORMAT << choices[playerChoice] << RESET_FORMAT << endl;
-    cout << "Elección del rival: " << YELLOW_FORMAT << choices[enemyChoice] << RESET_FORMAT << endl;
-
-    if (playerChoice == enemyChoice) {
-        cout << MAGENTA_FORMAT << "Empate. Se repetirá la ronda." << RESET_FORMAT << endl;
-        return TIE;
-    } else if ((playerChoice == 1 && enemyChoice == 3) ||
-               (playerChoice == 2 && enemyChoice == 1) ||
-               (playerChoice == 3 && enemyChoice == 2)) {
-        cout << GREEN_FORMAT << "¡Ganaste la ronda de Piedra, Papel o Tijera!" << RESET_FORMAT << endl;
-        return PLAYER_WINS;
-    } else {
-        cout << RED_FORMAT << "Perdiste la ronda de Piedra, Papel o Tijera." << RESET_FORMAT << endl;
-        return ENEMY_WINS;
-    }
-}
-
 const string getRandCharacterType() {
     const string types[] = {"Hechicero", "Conjurador", "Brujo", "Nigromante",
                             "Bárbaro", "Paladín", "Caballero", "Mercenario", "Gladiador"};
@@ -241,14 +204,6 @@ shared_ptr<Character> createPlayerCharacter() {
     return character;
 }
 
-bool decideTurn() {
-    RPSResult result;
-    do {
-        result = playRPS();
-    } while(result == TIE);
-    return (result == PLAYER_WINS);
-}
-
 void playerTurn(weak_ptr<Character> player, weak_ptr<Character> enemy, bool& battleOver) {
     auto playerPtr = player.lock();
     auto enemyPtr = enemy.lock();
@@ -365,15 +320,14 @@ void enemyTurn(weak_ptr<Character> enemy, weak_ptr<Character> player) {
 
 void showRules() {
     cout << BLUE_FORMAT << "\n==== REGLAS DEL JUEGO ====\n" << RESET_FORMAT << endl;
-    cout << "1. Se generará un enemigo aleatorio que te desafiará." << endl;
-    cout << "2. Es una batalla por turnos. Antes de cada turno, se jugara una ronda de Piedra, Papel o Tijera." << endl;
-    cout << "3. El ganador de la ronda ejecutará el turno de ataque normal." << endl;
-    cout << "4. En caso de empate, se repite la ronda de Piedra, Papel o Tijera." << endl;
-    cout << "5. En tu turno, podes atacar o usar tu habilidad especial (Esconderte o reforzarte)." << endl;
-    cout << "6. Cada arma tiene características únicas y ataques especiales." << endl;
-    cout << "7. El combate termina cuando la vida de uno de los personajes llega a 0." << endl;
-    cout << "8. Los hechiceros pueden esconderse para aumentar su agilidad y curarse." << endl;
-    cout << "9. Los guerreros pueden reforzarse para aumentar su armadura y curarse." << endl;
+    cout << "1. Se generá un enemigo aleatorio que te desafiará." << endl;
+    cout << "2. Es una batalla por turnos. (Se elige de forma aleatorio quien comienza)." << endl;
+    cout << "3. En tu turno, podes atacar o usar tu habilidad especial (Esconderte o reforzarte)." << endl;
+    cout << "4. Cada arma tiene características únicas y ataques especiales." << endl;
+    cout << "5. El combate termina cuando la vida de uno de los personajes llega a 0." << endl;
+    cout << "6. Los hechiceros pueden esconderse para aumentar su agilidad y curarse." << endl;
+    cout << "7. Los guerreros pueden reforzarse para aumentar su armadura y curarse." << endl;
+
     pressEnterToContinue();
 }
 
@@ -398,48 +352,71 @@ int main() {
                 auto player = createPlayerCharacter();
                 cout << "\nTu personaje ha sido creado:\n" << endl;
                 player->showCharacter();
-                
+
                 pressEnterToContinue();
                 
                 bool battleOver = false;
+                bool playerTurnFirst = getRandInt(0, 1) == 0;
+                
                 cout << "\n¡QUE COMIENCE EL COMBATE!\n" << endl;
+                if (playerTurnFirst) {
+                    cout << "¡Tienes la iniciativa y atacas primero!" << endl;
+                } else {
+                    cout << "¡Tu rival tiene la iniciativa y ataca primero!" << endl;
+                }
+                                
                 while (!battleOver) {
                     showBattleStatus(player, enemy);
-
-                    bool playerWinsRPS = decideTurn();
-
-                    if (playerWinsRPS) {
-                        cout << GREEN_FORMAT << "\n¡Tú ganas el Piedra, Papel o Tijera y atacas!" << RESET_FORMAT << endl;
-                        
-                        pressEnterToContinue();
-                        
+                    
+                    if (playerTurnFirst) {
                         playerTurn(player, enemy, battleOver);
-                    } else {
-                        cout << RED_FORMAT << "\n¡El rival gana el Piedra, Papel o Tijera y ataca!" << RESET_FORMAT << endl;
                         
-                        pressEnterToContinue();
-                        
-                        enemyTurn(enemy, player);
-                    }
+                        if (enemy->getHealth() <= 0) {
+                            cout << GREEN_FORMAT << "\n¡VICTORIA! Has derrotado a " << enemy->getName() << "." << RESET_FORMAT << endl;
+                            battleOver = true;
+                            continue;
+                        }
 
-                    if (enemy->getHealth() <= 0) {
-                        cout << GREEN_FORMAT << "\n¡VICTORIA! Has derrotado a " << enemy->getName() << "." << RESET_FORMAT << endl;
-                        battleOver = true;
-                        continue;
+                        pressEnterToContinue();
+                                                
+                        enemyTurn(enemy, player);
+                        
+                        if (player->getHealth() <= 0) {
+                            cout << RED_FORMAT << "\n¡DERROTA! Has sido derrotado por " << enemy->getName() << "." << RESET_FORMAT << endl;
+                            battleOver = true;
+                            continue;
+                        }
+                    } else {
+                        enemyTurn(enemy, player);
+                        
+                        if (player->getHealth() <= 0) {
+                            cout << RED_FORMAT << "\n¡DERROTA! Has sido derrotado por " << enemy->getName() << "." << RESET_FORMAT << endl;
+                            battleOver = true;
+                            continue;
+                        }
+
+                        pressEnterToContinue();
+                                                
+                        playerTurn(player, enemy, battleOver);
+                        
+                        if (enemy->getHealth() <= 0) {
+                            cout << GREEN_FORMAT << "\n¡VICTORIA! Has derrotado a " << enemy->getName() << "." << RESET_FORMAT << endl;
+                            battleOver = true;
+                            continue;
+                        }
                     }
-                    if (player->getHealth() <= 0) {
-                        cout << RED_FORMAT << "\n¡DERROTA! Has sido derrotado por " << enemy->getName() << "." << RESET_FORMAT << endl;
-                        battleOver = true;
-                        continue;
-                    }
+                    
                     pressEnterToContinue();
                 }
                 
                 cout << "\n¿Quieres volver al menú principal? (s/n): ";
                 char backToMenu;
                 cin >> backToMenu;
-                if (backToMenu != 's' && backToMenu != 'S')
+                
+                if (backToMenu != 's' && backToMenu != 'S') {
                     exitGame = true;
+                }
+                
                 break;
             }
             case 2:
